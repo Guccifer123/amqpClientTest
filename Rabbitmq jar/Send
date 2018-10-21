@@ -1,0 +1,32 @@
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+
+public class Send {
+
+    //the queue_name will cotain the message to be transfered from the producer to the consumer.
+    public final static String QUEUE_NAME = "Hello";
+
+    public static void main(String[]argv)
+
+        throws java.io.IOException {
+
+        ConnectionFactory factory = new ConnectionFactory();
+
+        //Connecting to a broker on the local machine-localhost
+        factory.setHost("localhost");
+        Connection connection = factory.newConnection();
+        Channel channel = connection.createChannel();
+
+        //Create a channel where most of the API for getting things done resides
+        channel.queueDeclear(QUEUE_NAME, false, false, false, null);
+        String message = "Hello World";
+        channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
+        System.out.println(" [x] Sent '" + message + "'");
+
+
+        //Close the channel
+        channel.close();
+        connection.close();
+    }
+}

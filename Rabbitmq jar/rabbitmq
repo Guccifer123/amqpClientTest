@@ -1,0 +1,21 @@
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+
+//Create an instance of the client ConnectionFactory:
+ConnectionFactory factory = new ConnectionFactory();
+
+//set the ConnectionFactory options:
+factory.setHost (rabbitMQhostname);
+
+//Connect the rabbitmq broker
+Connection connection = factory.newConnection();
+
+//Create a channel from the freshly created connection
+Channel channel = connection.createChannel();
+
+
+//When done with rabbitmq, release  the channel and the connection
+channel.close();
+connection.close();
+
